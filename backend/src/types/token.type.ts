@@ -7,4 +7,4 @@ export interface ITokenPair{
 
 export type ITokenPayload = Pick<IUser, "_id"| "role">
 
-export type IActionTokenPayload = Pick<IUser, "_id">
+export type IActionTokenPayload = Pick<IUser, "_id"|"role">

@@ -13,7 +13,8 @@ export const configs={
     NO_REPLAY_EMAIL: process.env.NO_REPLAY_EMAIL,
     NO_REPLAY_EMAIL_PASSWORD: process.env.NO_REPLAY_EMAIL_PASSWORD,
 
-    FRONT_URL: process.env.FRONT_URL
+    FRONT_URL: process.env.FRONT_URL,
 
+    SALT:+process.env.SALT
 
 }
