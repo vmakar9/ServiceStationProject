@@ -29,7 +29,8 @@ const userSchema = new Schema({
    },
    role:{
        type:String,
-       enum:EUserRoles
+       enum:EUserRoles,
+       default:EUserRoles.user
    }
 
 },
