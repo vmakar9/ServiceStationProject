@@ -41,7 +41,7 @@ class AuthService{
 
             const tokenPair = tokenService.generateTokenPair({
                 _id:user._id,
-                role:EUserRoles.user
+                role:user.role
             })
 
             await Token.create({

@@ -12,7 +12,7 @@ class RequestMiddleware{
             if(!request){
                 throw new ApiError("Request not found",422)
             }
-            req.res.locals = request
+            res.locals.request = request
             next()
         }catch (e) {
             next(e)
