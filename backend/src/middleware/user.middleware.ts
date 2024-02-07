@@ -52,6 +52,21 @@ class UserMiddleware{
         };
 
     }
+
+    public async getByIdOrThrow(req:Request,res:Response,next:NextFunction):Promise<void>{
+        try {
+            const {userId} = req.params
+
+            const user = await User.findById(userId)
+            if(!user){
+                throw new ApiError("User not found",422)
+            }
+            res.locals.user =user
+            next()
+        }catch (e) {
+            next(e)
+        }
+    }
 }
 
 export const userMiddleware = new UserMiddleware()
