@@ -8,23 +8,23 @@ const router = Router()
 
 router.get('/banlist/users',
     authMiddleware.checkAccessToken,
-    accessMiddleware.IsUserAdmin,
+    accessMiddleware.IsUserAdminOrModerator,
     moderatorController.getBanedUser)
 
 router.get('/users',
     authMiddleware.checkAccessToken,
-    accessMiddleware.IsUserAdmin,
+    accessMiddleware.IsUserAdminOrModerator,
     moderatorController.getAll)
 
 router.patch('/banlist/ban/:userId',
     authMiddleware.checkAccessToken,
-    accessMiddleware.IsUserAdmin,
+    accessMiddleware.IsUserAdminOrModerator,
     userMiddleware.getByIdOrThrow,
     moderatorController.banUser)
 
 router.patch('/banlist/unban/:userId',
     authMiddleware.checkAccessToken,
-    accessMiddleware.IsUserAdmin,
+    accessMiddleware.IsUserAdminOrModerator,
     userMiddleware.getByIdOrThrow,
     moderatorController.unBanUser)
 

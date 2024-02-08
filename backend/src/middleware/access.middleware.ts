@@ -39,12 +39,27 @@ class AccessMiddleware{
         }
     }
 
-    public async IsUserAdmin(req:Request,res:Response,next:NextFunction){
+    public async IsUserAdminOrModerator(req:Request,res:Response,next:NextFunction){
         try {
             const {_id} = req.res.locals.jwtPayload as ITokenPayload
             const user = await User.findById(_id)
 
             if(user.role == EUserRoles.user){
+                throw new ApiError("Access denied",401)
+            }
+            res.locals.user = user
+            next()
+        }catch (e) {
+            next(e)
+        }
+    }
+
+    public async IsUserAdmin(req:Request,res:Response,next:NextFunction){
+        try {
+            const {_id} = req.res.locals.jwtPayload as ITokenPayload
+            const user = await User.findById(_id)
+
+            if(user.role != EUserRoles.admin){
                 throw new ApiError("Access denied",401)
             }
             res.locals.user = user
