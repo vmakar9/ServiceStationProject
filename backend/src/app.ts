@@ -7,6 +7,7 @@ import {userRouter} from "./routers/user.router";
 import {requestsRouter} from "./routers/requests.router";
 import {moderatorRouter} from "./routers/moderator.router";
 import {adminRouter} from "./routers/admin.router";
+import {repairerRouter} from "./routers/repairer.router";
 
 
 const app = express()
@@ -25,6 +26,7 @@ app.use("/users",userRouter)
 app.use("/requests",requestsRouter)
 app.use("/moderator",moderatorRouter)
 app.use("/admin",adminRouter)
+app.use("/repairer",repairerRouter)
 
 app.listen(configs.PORT,async ()=>{
     await mongoose.connect(configs.BASE_URL)
