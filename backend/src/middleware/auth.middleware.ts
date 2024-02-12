@@ -7,6 +7,8 @@ import {EActionTokenType} from "../enum/action-token-type";
 import {Action} from "../models/action.model";
 import {OldPassword} from "../models/oldpassoword.model";
 import {passwordService} from "../services/password.service";
+import {ERepairTokenType} from "../enum/repair-token-type";
+import {RepairToken} from "../models/repair-token.model";
 
 class AuthMiddleware{
     public async checkAccessToken(req:Request,res:Response,next:NextFunction):Promise<void>{
@@ -78,6 +80,40 @@ class AuthMiddleware{
                     }
                 })
             )
+            next()
+        }catch (e) {
+            next(e)
+        }
+    }
+
+    public async checkAccessRepairToken(req:Request,res:Response,next:NextFunction){
+        try {
+            const accessRepairToken = req.get("Authorization")
+            if(!accessRepairToken){
+                throw new ApiError("No token",401)
+            }
+            const jwtPayload = tokenService.checkRepairToken(
+                accessRepairToken,ERepairTokenType.accessRepair)
+
+            const tokenInfo = await RepairToken.findOne({accessRepairToken})
+            req.res.locals = {jwtPayload,tokenInfo}
+            next()
+        }catch (e) {
+            next(e)
+        }
+    }
+
+    public async checkRefreshRepairToken(req:Request,res:Response,next:NextFunction){
+        try {
+            const refreshRepairToken = req.get("Authorization")
+            if(!refreshRepairToken){
+                throw new ApiError("No token",401)
+            }
+            const jwtPayload = tokenService.checkRepairToken(
+                refreshRepairToken,ERepairTokenType.refreshRepair)
+
+            const tokenInfo = await RepairToken.findOne({refreshRepairToken})
+            req.res.locals = {jwtPayload,tokenInfo}
             next()
         }catch (e) {
             next(e)

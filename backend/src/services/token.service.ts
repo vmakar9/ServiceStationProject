@@ -1,9 +1,16 @@
-import {IActionTokenPayload, ITokenPair, ITokenPayload} from "../types/token.type";
+import {
+    IActionTokenPayload,
+    ITokenPair,
+    ITokenPayload,
+    ITokenRepairPair,
+    ITokenRepairPayload
+} from "../types/token.type";
 import * as jwt from "jsonwebtoken"
 import {configs} from "../configs/config";
 import {ETokenType} from "../enum/token.enum";
 import {ApiError} from "../error/api.error";
 import {EActionTokenType} from "../enum/action-token-type";
+import {ERepairTokenType} from "../enum/repair-token-type";
 
 class TokenService{
     public generateTokenPair(payload:ITokenPayload):ITokenPair{
@@ -63,6 +70,36 @@ class TokenService{
             return jwt.verify(token,secret) as IActionTokenPayload
         }catch (e) {
             throw new ApiError("Token not valid",401)
+        }
+    }
+
+    public generateRepeirToken(payload:ITokenRepairPayload):ITokenRepairPair{
+       const accessRepairToken = jwt.sign(payload,configs.JWT_REPAIRER_ACCESS_SECRET,{
+           expiresIn:"1h"
+       })
+       const refreshRepairToken= jwt.sign(payload,configs.JWT_REPAIRER_REFRESH_SECRET,{
+           expiresIn:"30d"
+       })
+       return {
+           accessRepairToken, refreshRepairToken
+       }
+
+    }
+
+    public checkRepairToken(token:string,tokenType:ERepairTokenType){
+        try {
+            let secret =""
+            switch (tokenType){
+                case ERepairTokenType.accessRepair:
+                    secret =  configs.JWT_REPAIRER_ACCESS_SECRET
+                    break
+                case ERepairTokenType.refreshRepair:
+                    secret = configs.JWT_REPAIRER_REFRESH_SECRET
+                    break
+            }
+         return jwt.verify(token,secret) as ITokenRepairPayload
+        }catch (e) {
+          throw new ApiError("Token not valid",401)
         }
     }
 

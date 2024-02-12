@@ -15,6 +15,9 @@ export const configs={
 
     FRONT_URL: process.env.FRONT_URL,
 
-    SALT:+process.env.SALT
+    SALT:+process.env.SALT,
+
+    JWT_REPAIRER_ACCESS_SECRET:process.env.JWT_REPAIRER_ACCESS_SECRET,
+    JWT_REPAIRER_REFRESH_SECRET:process.env.JWT_REPAIRER_REFRESH_SECRET
 
 }
