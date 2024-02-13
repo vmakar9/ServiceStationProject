@@ -1,5 +1,7 @@
 import {Request,Response,NextFunction} from "express";
 import {repairerService} from "../services/repairer.service";
+import {ITokenRepairPayload} from "../types/token.type";
+import {IRepairer} from "../types/repairer.type";
 
 class RepairerController{
     public async createRepairer(req:Request,res:Response,next:NextFunction){
@@ -31,6 +33,29 @@ class RepairerController{
             next(e)
         }
     }
+
+    public async getRepairerMe(req:Request,res:Response,next:NextFunction){
+        try {
+            const jwtPayload = req.res.locals.jwtPayload as ITokenRepairPayload
+            const repairer = await repairerService.getRepairerMe(jwtPayload)
+            res.json({data:repairer})
+        }catch (e) {
+            next(e)
+        }
+    }
+
+    public async updateRepairerMe(req:Request,res:Response,next:NextFunction){
+        try {
+           const jwtPayload = req.res.locals.jwtPayload as ITokenRepairPayload
+           const body = req.body as Partial<IRepairer>
+
+           const repairer = await repairerService.updateRepairer(jwtPayload,body)
+           res.status(201).json(repairer)
+        }catch (e) {
+            next(e)
+        }
+    }
+
 }
 
 export const repairerController = new RepairerController()

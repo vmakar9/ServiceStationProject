@@ -58,6 +58,32 @@ class RepairerService{
             throw new ApiError(e.error,e.message)
         }
     }
+
+    public async getRepairerMe(jwtPayload:ITokenRepairPayload):Promise<IRepairer>{
+        try {
+            const repairer = await Repairer.findOne({_id:jwtPayload._id})
+            if(!repairer){
+                throw new ApiError("You cannot get this repairer",403)
+            }
+            return repairer
+        }catch (e) {
+            throw new ApiError(e.error,e.message)
+        }
+    }
+
+    public async updateRepairer(jwtPayload:ITokenRepairPayload,body:Partial<IRepairer>):Promise<IRepairer>{
+        try {
+            const repairer = await Repairer.findOne({_id:jwtPayload._id})
+            if(!repairer){
+                throw new ApiError("You cannot get this repairer",403)
+            }
+           return  Repairer.findByIdAndUpdate(jwtPayload._id,body,{returnDocument:"after"})
+        }catch (e) {
+            throw new ApiError(e.error,e.message)
+        }
+    }
+
+
 }
 
 export const repairerService = new RepairerService()

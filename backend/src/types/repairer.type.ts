@@ -1,5 +1,7 @@
+import {Types} from "mongoose";
+
 export interface IRepairer{
-    _id:string,
+    _id:Types.ObjectId,
     name:string,
     surname:string,
     speciality:string,

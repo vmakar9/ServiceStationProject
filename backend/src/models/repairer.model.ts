@@ -1,6 +1,6 @@
 import {model, Schema} from "mongoose";
 
-const repeirerSchema = new Schema({
+const repairerSchema = new Schema({
     name:{
         type:String,
         required:true
@@ -31,4 +31,4 @@ const repeirerSchema = new Schema({
         timestamps:true
     })
 
-export const Repairer = model('repairer',repeirerSchema)
+export const Repairer = model('repairer',repairerSchema)

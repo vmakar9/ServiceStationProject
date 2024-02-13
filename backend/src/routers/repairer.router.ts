@@ -19,5 +19,13 @@ router.post('/refreshRepairer',
     authMiddleware.checkRefreshRepairToken,
     repairerController.refreshRepairer)
 
+router.get('/RepairerMe',
+    authMiddleware.checkAccessRepairToken,
+    repairerController.getRepairerMe)
+
+router.patch('/RepairerMe',
+    authMiddleware.checkAccessRepairToken,
+    repairerController.updateRepairerMe)
+
 
 export const repairerRouter = router
