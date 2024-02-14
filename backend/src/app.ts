@@ -8,6 +8,7 @@ import {requestsRouter} from "./routers/requests.router";
 import {moderatorRouter} from "./routers/moderator.router";
 import {adminRouter} from "./routers/admin.router";
 import {repairerRouter} from "./routers/repairer.router";
+import {cronRunner} from "./cron/cron.runner";
 
 
 const app = express()
@@ -30,5 +31,6 @@ app.use("/repairer",repairerRouter)
 
 app.listen(configs.PORT,async ()=>{
     await mongoose.connect(configs.BASE_URL)
+    cronRunner()
     console.log(`Server is started on ${configs.PORT}`)
 })
